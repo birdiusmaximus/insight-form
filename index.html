@@ -77,11 +77,7 @@
 </head>
 <body>
 
-  <form 
-    id="insightForm"
-    action="POST https://gighealth.app.n8n.cloud/webhook/insight-submit-article"
-    method="POST"
-  >
+  <form id="insightForm">
     <h2>🧠 Insight Context Questionnaire</h2>
 
     <label for="q1">1. What is the current problem, belief or behaviour that your target audience currently has?</label>
@@ -93,16 +89,17 @@
     <label for="q3">3. What small step can your audience take in the next 1–2 weeks that could make a difference?</label>
     <textarea id="q3" name="q3" required></textarea>
 
-    <label for="dq1" id="dq1-label"></label>
+    <label for="dq1" id="dq1-label">4.</label>
     <textarea id="dq1" name="dq1_answer" required></textarea>
 
-    <label for="dq2" id="dq2-label"></label>
+    <label for="dq2" id="dq2-label">5.</label>
     <textarea id="dq2" name="dq2_answer" required></textarea>
 
     <button type="submit">Submit Insight</button>
   </form>
 
   <script>
+    // Get dynamic labels from URL
     const params = new URLSearchParams(window.location.search);
     const dq1 = params.get('dq1');
     const dq2 = params.get('dq2');
@@ -115,6 +112,40 @@
     if (dq2) {
       document.getElementById('dq2-label').textContent = `5. ${stripLeadingNumber(dq2)}`;
     }
+
+    document.getElementById('insightForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const payload = {
+        q1: document.getElementById('q1').value,
+        q2: document.getElementById('q2').value,
+        q3: document.getElementById('q3').value,
+        dq1_label: dq1,
+        dq1_answer: document.getElementById('dq1').value,
+        dq2_label: dq2,
+        dq2_answer: document.getElementById('dq2').value,
+      };
+
+      try {
+        const res = await fetch("https://gighealth.app.n8n.cloud/webhook/insight-submit-article", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          alert("✅ Insight submitted successfully!");
+          // Optionally reset form or redirect
+        } else {
+          alert("❌ Submission failed.");
+        }
+      } catch (err) {
+        console.error("Error submitting form:", err);
+        alert("⚠️ Network error.");
+      }
+    });
   </script>
 
 </body>
