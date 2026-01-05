@@ -1,28 +1,85 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Insight Context Form</title>
-  </head>
-  <body>
-    <h1>Insight Questionnaire</h1>
-    <form
-      action="https://gighealth.app.n8n.cloud/webhook/insight-submit"
-      method="POST"
-    >
-      <label for="insight">Insight:</label><br />
-      <textarea name="insight" rows="4" cols="50" required></textarea><br /><br />
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Insight Questionnaire</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f9f9f9;
+    }
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      max-width: 700px;
+      margin: auto;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 20px;
+      display: block;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 8px;
+      font-size: 14px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <form id="insightForm">
+    <h2>🧠 Insight Context Questionnaire</h2>
 
-      <label for="audience">Target Audience:</label><br />
-      <input type="text" name="audience" required /><br /><br />
+    <label for="q1">What is the current problem, belief or behaviour that your target audience currently has?</label>
+    <textarea id="q1" name="q1" required></textarea>
 
-      <label for="question1">Dynamic Question 1:</label><br />
-      <textarea name="question1" rows="4" cols="50" required></textarea><br /><br />
+    <label for="q2">What is the desired ‘new’ behaviour that you want to help achieve in your audience with this insight?</label>
+    <textarea id="q2" name="q2" required></textarea>
 
-      <label for="question2">Dynamic Question 2:</label><br />
-      <textarea name="question2" rows="4" cols="50" required></textarea><br /><br />
+    <label for="q3">What small step can your audience take in the next 1–2 weeks that could make a difference?</label>
+    <textarea id="q3" name="q3" required></textarea>
 
-      <button type="submit">Submit</button>
-    </form>
-  </body>
+    <label for="dq1" id="dq1-label">Dynamic Question 1</label>
+    <textarea id="dq1" name="dq1" required></textarea>
+
+    <label for="dq2" id="dq2-label">Dynamic Question 2</label>
+    <textarea id="dq2" name="dq2" required></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const dq1 = params.get('dq1');
+    const dq2 = params.get('dq2');
+
+    if (dq1) {
+      document.getElementById('dq1-label').textContent = dq1;
+    }
+    if (dq2) {
+      document.getElementById('dq2-label').textContent = dq2;
+    }
+
+    document.getElementById('insightForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('✅ Form submitted (you can replace this with an n8n webhook or email handler)');
+    });
+  </script>
+</body>
 </html>
