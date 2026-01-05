@@ -43,7 +43,12 @@
   </style>
 </head>
 <body>
-  <form id="insightForm">
+
+  <form 
+    id="insightForm"
+    action="https://gighealth.app.n8n.cloud/webhook/insight-submit"
+    method="POST"
+  >
     <h2>🧠 Insight Context Questionnaire</h2>
 
     <label for="q1">What is the current problem, belief or behaviour that your target audience currently has?</label>
@@ -56,10 +61,10 @@
     <textarea id="q3" name="q3" required></textarea>
 
     <label for="dq1" id="dq1-label">Dynamic Question 1</label>
-    <textarea id="dq1" name="dq1" required></textarea>
+    <textarea id="dq1" name="dq1_answer" required></textarea>
 
     <label for="dq2" id="dq2-label">Dynamic Question 2</label>
-    <textarea id="dq2" name="dq2" required></textarea>
+    <textarea id="dq2" name="dq2_answer" required></textarea>
 
     <button type="submit">Submit</button>
   </form>
@@ -75,11 +80,7 @@
     if (dq2) {
       document.getElementById('dq2-label').textContent = dq2;
     }
-
-    document.getElementById('insightForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('✅ Form submitted (you can replace this with an n8n webhook or email handler)');
-    });
   </script>
+
 </body>
 </html>
