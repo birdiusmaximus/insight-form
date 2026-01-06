@@ -99,10 +99,11 @@
   </form>
 
   <script>
-    // Get dynamic labels from URL
+    // Get dynamic labels and timestamp from URL
     const params = new URLSearchParams(window.location.search);
     const dq1 = params.get('dq1');
     const dq2 = params.get('dq2');
+    const ts = params.get('ts'); // ✅ Capture timestamp
 
     const stripLeadingNumber = str => str ? str.replace(/^\d+\.\s*/, '') : '';
 
@@ -124,6 +125,7 @@
         dq1_answer: document.getElementById('dq1').value,
         dq2_label: dq2,
         dq2_answer: document.getElementById('dq2').value,
+        ts: ts // ✅ Send timestamp to n8n
       };
 
       try {
@@ -137,7 +139,7 @@
 
         if (res.ok) {
           alert("✅ Insight submitted successfully!");
-          // Optionally reset form or redirect
+          // Optional: reset form or redirect user
         } else {
           alert("❌ Submission failed.");
         }
